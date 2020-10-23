@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TagRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,6 +26,22 @@ class Tag
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Job::class, mappedBy="tags")
+     */
+    private $jobs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Internship::class, mappedBy="tags")
+     */
+    private $internships;
+
+    public function __construct()
+    {
+        $this->jobs = new ArrayCollection();
+        $this->internships = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +55,60 @@ class Tag
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->removeElement($job)) {
+            $job->removeTag($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Internship[]
+     */
+    public function getInternships(): Collection
+    {
+        return $this->internships;
+    }
+
+    public function addInternship(Internship $internship): self
+    {
+        if (!$this->internships->contains($internship)) {
+            $this->internships[] = $internship;
+            $internship->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternship(Internship $internship): self
+    {
+        if ($this->internships->removeElement($internship)) {
+            $internship->removeTag($this);
+        }
 
         return $this;
     }
