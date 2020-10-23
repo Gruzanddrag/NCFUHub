@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SpecialityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -29,6 +30,10 @@ class Speciality
         return $this->id;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;

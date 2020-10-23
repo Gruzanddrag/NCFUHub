@@ -7,9 +7,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      attributes={
+ *          "normalization_context"={"groups"={"user:read"}}
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User
@@ -51,22 +57,36 @@ class User
      */
     private $jobResponses;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
     public function __construct()
     {
         $this->jobResponses = new ArrayCollection();
     }
 
-
+    /**
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
+    /**
+     * @param string $lastname
+     * @return User
+     */
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -74,6 +94,10 @@ class User
         return $this;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -86,6 +110,10 @@ class User
         return $this;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
     public function getThirdname(): ?string
     {
         return $this->thirdname;
@@ -98,6 +126,10 @@ class User
         return $this;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return UserProfile|null
+     */
     public function getUserProfile(): ?UserProfile
     {
         return $this->userProfile;
@@ -117,6 +149,7 @@ class User
     }
 
     /**
+     * @Groups("user:read")
      * @return mixed
      */
     public function getRoles()
@@ -133,6 +166,7 @@ class User
     }
 
     /**
+     * @Groups("user:read")
      * @return Collection|JobResponse[]
      */
     public function getJobResponses(): Collection
@@ -158,6 +192,22 @@ class User
                 $jobResponse->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

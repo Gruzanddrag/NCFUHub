@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -34,6 +37,36 @@ class UserProfile
      */
     private $haveJobPermission;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $telegram;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobExperience::class, mappedBy="userProfile")
+     */
+    private $jobExperienses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Institute::class, cascade={"persist", "remove"})
+     */
+    private $institute;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Speciality::class, cascade={"persist", "remove"})
+     */
+    private $speciality;
+
+    public function __construct()
+    {
+        $this->jobExperienses = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +84,10 @@ class UserProfile
         return $this;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
     public function getAboutMe(): ?string
     {
         return $this->aboutMe;
@@ -63,6 +100,10 @@ class UserProfile
         return $this;
     }
 
+    /**
+     * @Groups("user:read")
+     * @return bool|null
+     */
     public function getHaveJobPermission(): ?bool
     {
         return $this->haveJobPermission;
@@ -71,6 +112,101 @@ class UserProfile
     public function setHaveJobPermission(bool $haveJobPermission): self
     {
         $this->haveJobPermission = $haveJobPermission;
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return string|null
+     */
+    public function getTelegram(): ?string
+    {
+        return $this->telegram;
+    }
+
+    public function setTelegram(string $telegram): self
+    {
+        $this->telegram = $telegram;
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return Collection|JobExperience[]
+     */
+    public function getJobExperienses(): Collection
+    {
+        return $this->jobExperienses;
+    }
+
+    public function addJobExperiense(JobExperience $jobExperiense): self
+    {
+        if (!$this->jobExperienses->contains($jobExperiense)) {
+            $this->jobExperienses[] = $jobExperiense;
+            $jobExperiense->setUserProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobExperiense(JobExperience $jobExperiense): self
+    {
+        if ($this->jobExperienses->removeElement($jobExperiense)) {
+            // set the owning side to null (unless already changed)
+            if ($jobExperiense->getUserProfile() === $this) {
+                $jobExperiense->setUserProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return Institute|null
+     */
+    public function getInstitute(): ?Institute
+    {
+        return $this->institute;
+    }
+
+    public function setInstitute(?Institute $institute): self
+    {
+        $this->institute = $institute;
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return Speciality|null
+     */
+    public function getSpeciality(): ?Speciality
+    {
+        return $this->speciality;
+    }
+
+    public function setSpeciality(?Speciality $speciality): self
+    {
+        $this->speciality = $speciality;
 
         return $this;
     }

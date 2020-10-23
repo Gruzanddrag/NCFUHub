@@ -66,6 +66,11 @@ class Job
      */
     private $tags;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $jobExperience;
+
     public function __construct()
     {
         $this->jobResponses = new ArrayCollection();
@@ -211,6 +216,18 @@ class Job
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getJobExperience(): ?string
+    {
+        return $this->jobExperience;
+    }
+
+    public function setJobExperience(string $jobExperience): self
+    {
+        $this->jobExperience = $jobExperience;
 
         return $this;
     }
