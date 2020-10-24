@@ -5,9 +5,26 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\JobResponseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\API\CreateResponse;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"normalization_context"={"groups"="jobResponce:collection:get"}},
+ *          "post"={
+ *              "normalization_context"={
+ *                  "groups"="jobResponce:item:post"
+ *              },
+ *              "method"="POST",
+ *              "controller"=CreateResponse::class
+ *          },
+ *     },
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"="jobResponce:item:get"}},
+ *          "put"={"normalization_context"={"groups"="jobResponce:item:put"}},
+ *     }
+ *     )
  * @ORM\Entity(repositoryClass=JobResponseRepository::class)
  */
 class JobResponse
@@ -44,6 +61,15 @@ class JobResponse
      */
     private $status;
 
+    /**
+     * @Groups({
+     *     "jobResponce:item:get",
+     *     "jobResponce:collectoin:get",
+     *     "jobResponce:item:post",
+     *     "jobResponce:item:put"
+     * })
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +99,15 @@ class JobResponse
         return $this;
     }
 
+    /**
+     * @Groups({
+     *     "jobResponce:item:get",
+     *     "jobResponce:collectoin:get",
+     *     "jobResponce:item:post",
+     *     "jobResponce:item:put"
+     * })
+     * @return string|null
+     */
     public function getLetter(): ?string
     {
         return $this->letter;
@@ -85,6 +120,14 @@ class JobResponse
         return $this;
     }
 
+    /**
+     * @Groups({
+     *     "jobResponce:item:get",
+     *     "jobResponce:collectoin:get",
+     *     "jobResponce:item:put"
+     * })
+     * @return string|null
+     */
     public function getStatus(): ?string
     {
         return new JobResponseStatus($this->status);

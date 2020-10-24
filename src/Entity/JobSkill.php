@@ -39,13 +39,17 @@ class JobSkill
         $this->internships = new ArrayCollection();
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get","internship:collection:get", "internship:item:get"})
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({"job:collection:get", "job:item:get","internship:collection:get", "internship:item:get"})
      * @return string|null
      */
     public function getName(): ?string

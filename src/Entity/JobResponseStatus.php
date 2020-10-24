@@ -18,7 +18,7 @@ class JobResponseStatus
     public function __construct($status)
     {
         switch ($status) {
-            case (JobRes::STATUS_ACTIVE):
+            case (JobResponse::STATUS_ACTIVE):
                 $this->statusName = 'Активный';
                 break;
             case (JobResponse::STATUS_ACCEPTED):
