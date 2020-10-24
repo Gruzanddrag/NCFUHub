@@ -77,6 +77,11 @@ class Organization
      */
     private $city;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="organization", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
         $this->internships = new ArrayCollection();
@@ -335,7 +340,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return string|null
      */
@@ -347,6 +353,18 @@ class Organization
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

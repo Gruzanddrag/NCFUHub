@@ -121,7 +121,8 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"})
+     *     "user:read"
+     * })
      * @return int|null
      */
     public function getId(): ?int
@@ -150,7 +151,11 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"
+     * })
      * @return int|null
      */
     public function getMinPayment(): ?int
@@ -166,7 +171,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"})
      * @return int|null
      */
     public function getMaxPayment(): ?int
@@ -182,7 +190,11 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"
+     * })
      * @return string|null
      */
     public function getDescription(): ?string
@@ -198,7 +210,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"})
      * @return string|null
      */
     public function getJobAttendanceType(): ?string
@@ -306,7 +321,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return Collection|JobSkill[]
      */
     public function getRequiredSkills(): Collection
@@ -331,7 +349,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return Collection|JobSkill[]
      */
     public function getImprovedSkills(): Collection
@@ -356,7 +377,11 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"
+     * })
      * @return mixed
      */
     public function getJobExperience()

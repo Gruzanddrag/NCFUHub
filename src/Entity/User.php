@@ -62,9 +62,20 @@ class User
      */
     private $email;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Organization::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $organization;
+
+    /**
+     * @ORM\OneToMany(targetEntity=InternshipResponse::class, mappedBy="user")
+     */
+    private $internshipResponses;
+
     public function __construct()
     {
         $this->jobResponses = new ArrayCollection();
+        $this->internshipResponses = new ArrayCollection();
     }
 
     /**
@@ -208,6 +219,59 @@ class User
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return Organization|null
+     */
+    public function getOrganization(): ?Organization
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(?Organization $organization): self
+    {
+        $this->organization = $organization;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $organization ? null : $this;
+        if ($organization->getUser() !== $newUser) {
+            $organization->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @Groups("user:read")
+     * @return Collection|InternshipResponse[]
+     */
+    public function getInternshipResponses(): Collection
+    {
+        return $this->internshipResponses;
+    }
+
+    public function addInternshipResponse(InternshipResponse $internshipResponse): self
+    {
+        if (!$this->internshipResponses->contains($internshipResponse)) {
+            $this->internshipResponses[] = $internshipResponse;
+            $internshipResponse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternshipResponse(InternshipResponse $internshipResponse): self
+    {
+        if ($this->internshipResponses->removeElement($internshipResponse)) {
+            // set the owning side to null (unless already changed)
+            if ($internshipResponse->getUser() === $this) {
+                $internshipResponse->setUser(null);
+            }
+        }
 
         return $this;
     }

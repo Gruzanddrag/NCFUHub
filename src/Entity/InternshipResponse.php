@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\JobResponseRepository;
+use App\Controller\API\InternshipResponse\CreateResponse;
+use App\Repository\InternshipResponseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\API\JobResponse\CreateResponse;
 
 /**
  * @ApiResource(
@@ -23,16 +23,11 @@ use App\Controller\API\JobResponse\CreateResponse;
  *     itemOperations={
  *          "get"={"normalization_context"={"groups"="jobResponce:item:get"}},
  *          "put"={"normalization_context"={"groups"="jobResponce:item:put"}},
- *     }
- *     )
- * @ORM\Entity(repositoryClass=JobResponseRepository::class)
+ *     })
+ * @ORM\Entity(repositoryClass=InternshipResponseRepository::class)
  */
-class JobResponse
+class InternshipResponse
 {
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_DENY = 2;
-    public const STATUS_ACCEPTED = 3;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -41,30 +36,24 @@ class JobResponse
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="jobResponses")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="internshipResponses")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Job::class, inversedBy="jobResponses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Internship::class, inversedBy="internshipResponses")
      */
-    private $job;
-
-    /**
-     * @ORM\Column(type="string", length=5000)
-     */
-    private $letter;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $status;
+    private $internship;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
 
     /**
      * @Groups({
@@ -95,18 +84,22 @@ class JobResponse
 
     /**
      * @Groups({
+     *     "jobResponce:item:get",
+     *     "jobResponce:collectoin:get",
+     *     "jobResponce:item:post",
+     *     "jobResponce:item:put",
      *     "user:read"
      * })
-     * @return Job|null
+     * @return Internship|null
      */
-    public function getJob(): ?Job
+    public function getInternship(): ?Internship
     {
-        return $this->job;
+        return $this->internship;
     }
 
-    public function setJob(?Job $job): self
+    public function setInternship(?Internship $Internship): self
     {
-        $this->job = $job;
+        $this->internship = $Internship;
 
         return $this;
     }
@@ -116,48 +109,6 @@ class JobResponse
      *     "jobResponce:item:get",
      *     "jobResponce:collectoin:get",
      *     "jobResponce:item:post",
-     *     "jobResponce:item:put",
-     *     "user:read"
-     * })
-     * @return string|null
-     */
-    public function getLetter(): ?string
-    {
-        return $this->letter;
-    }
-
-    public function setLetter(string $letter): self
-    {
-        $this->letter = $letter;
-
-        return $this;
-    }
-
-    /**
-     * @Groups({
-     *     "jobResponce:item:get",
-     *     "jobResponce:collectoin:get",
-     *     "jobResponce:item:put",
-     *     "user:read"
-     * })
-     * @return string|null
-     */
-    public function getStatus(): ?string
-    {
-        return new JobResponseStatus($this->status);
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @Groups({
-     *     "jobResponce:item:get",
-     *     "jobResponce:collectoin:get",
      *     "jobResponce:item:put",
      *     "user:read"
      * })
@@ -175,5 +126,25 @@ class JobResponse
         return $this;
     }
 
+    /**
+     * @Groups({
+     *     "jobResponce:item:get",
+     *     "jobResponce:collectoin:get",
+     *     "jobResponce:item:post",
+     *     "jobResponce:item:put",
+     *     "user:read"
+     * })
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return new JobResponseStatus($this->status);
+    }
 
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 }

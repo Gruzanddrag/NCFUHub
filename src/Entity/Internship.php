@@ -56,14 +56,24 @@ class Internship
      */
     private $requiredSkills;
 
+    /**
+     * @ORM\OneToMany(targetEntity=InternshipResponse::class, mappedBy="Internship")
+     */
+    private $internshipResponses;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->requiredSkills = new ArrayCollection();
+        $this->internshipResponses = new ArrayCollection();
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "user:read"
+     * })
      * @return int|null
      */
     public function getId(): ?int
@@ -72,7 +82,11 @@ class Internship
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "user:read"
+     * })
      * @return string|null
      */
     public function getDescription(): ?string
@@ -88,7 +102,11 @@ class Internship
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "user:read"
+     * })
      * @return string|null
      */
     public function getName(): ?string
@@ -104,7 +122,11 @@ class Internship
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "user:read"
+     * })
      * @return Organization|null
      */
     public function getOrganization(): ?Organization
@@ -120,7 +142,11 @@ class Internship
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "user:read"
+     * })
      * @return Collection|Tag[]
      */
     public function getTags(): Collection
@@ -145,7 +171,10 @@ class Internship
     }
 
     /**
-     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get"
+     * })
      * @return Collection|JobSkill[]
      */
     public function getRequiredSkills(): Collection
@@ -165,6 +194,36 @@ class Internship
     public function removeRequiredSkill(JobSkill $requiredSkill): self
     {
         $this->requiredSkills->removeElement($requiredSkill);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InternshipResponse[]
+     */
+    public function getInternshipResponses(): Collection
+    {
+        return $this->internshipResponses;
+    }
+
+    public function addInternshipResponse(InternshipResponse $internshipResponse): self
+    {
+        if (!$this->internshipResponses->contains($internshipResponse)) {
+            $this->internshipResponses[] = $internshipResponse;
+            $internshipResponse->setInternship($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternshipResponse(InternshipResponse $internshipResponse): self
+    {
+        if ($this->internshipResponses->removeElement($internshipResponse)) {
+            // set the owning side to null (unless already changed)
+            if ($internshipResponse->getInternship() === $this) {
+                $internshipResponse->setInternship(null);
+            }
+        }
 
         return $this;
     }
