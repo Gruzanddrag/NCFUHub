@@ -66,7 +66,8 @@ class JobResponse
      *     "jobResponce:item:get",
      *     "jobResponce:collectoin:get",
      *     "jobResponce:item:post",
-     *     "jobResponce:item:put"
+     *     "jobResponce:item:put",
+     *     "user:read"
      * })
      * @return int|null
      */
@@ -87,6 +88,12 @@ class JobResponse
         return $this;
     }
 
+    /**
+     * @Groups({
+     *     "user:read"
+     * })
+     * @return Job|null
+     */
     public function getJob(): ?Job
     {
         return $this->job;
@@ -104,7 +111,8 @@ class JobResponse
      *     "jobResponce:item:get",
      *     "jobResponce:collectoin:get",
      *     "jobResponce:item:post",
-     *     "jobResponce:item:put"
+     *     "jobResponce:item:put",
+     *     "user:read"
      * })
      * @return string|null
      */
@@ -124,7 +132,8 @@ class JobResponse
      * @Groups({
      *     "jobResponce:item:get",
      *     "jobResponce:collectoin:get",
-     *     "jobResponce:item:put"
+     *     "jobResponce:item:put",
+     *     "user:read"
      * })
      * @return string|null
      */

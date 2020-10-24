@@ -88,7 +88,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return int|null
      */
@@ -102,7 +103,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return string|null
      */
@@ -123,7 +125,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return string|null
      */
@@ -144,7 +147,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return string|null
      */
@@ -165,7 +169,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "user:read"
      * })
      * @return float|null
      */

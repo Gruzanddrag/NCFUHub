@@ -118,7 +118,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"})
      * @return int|null
      */
     public function getId(): ?int
@@ -127,7 +130,11 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"
+     * })
      * @return string|null
      */
     public function getPositionName(): ?string
@@ -254,7 +261,11 @@ class Job
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "job:collection:get",
+     *     "job:item:get",
+     *     "user:read"
+     * })
      * @return Organization|null
      */
     public function getOrganization(): ?Organization
