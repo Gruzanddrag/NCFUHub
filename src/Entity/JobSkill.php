@@ -27,10 +27,16 @@ class JobSkill
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Internship::class, mappedBy="requiredSkills")
+     */
+    private $internships;
+
 
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
+        $this->internships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,6 +56,33 @@ class JobSkill
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Internship[]
+     */
+    public function getInternships(): Collection
+    {
+        return $this->internships;
+    }
+
+    public function addInternship(Internship $internship): self
+    {
+        if (!$this->internships->contains($internship)) {
+            $this->internships[] = $internship;
+            $internship->addRequiredSkill($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternship(Internship $internship): self
+    {
+        if ($this->internships->removeElement($internship)) {
+            $internship->removeRequiredSkill($this);
+        }
 
         return $this;
     }

@@ -83,13 +83,27 @@ class Organization
         $this->jobs = new ArrayCollection();
     }
 
+    /**
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getName(): ?string
@@ -105,7 +119,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getDescription(): ?string
@@ -121,7 +140,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getAddress(): ?string
@@ -137,7 +161,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return float|null
      */
     public function getRating(): ?float
@@ -153,7 +182,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getPhone(): ?string
@@ -169,7 +203,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getTelegram(): ?string
@@ -215,7 +254,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getAgentName(): ?string
@@ -231,7 +275,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getAgentEmail(): ?string
@@ -277,7 +326,12 @@ class Organization
     }
 
     /**
-     * @Groups({"job:collection:get", "job:item:get"})
+     * @Groups({
+     *     "internship:collection:get",
+     *     "internship:item:get",
+     *     "job:collection:get",
+     *     "job:item:get"
+     * })
      * @return string|null
      */
     public function getCity(): ?string

@@ -2,12 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InternshipRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"normalization_context"={"groups"="internship:collection:get"}},
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"="internship:item:get"}},
+ *          "put"
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=InternshipRepository::class)
  */
 class Internship
@@ -39,16 +51,30 @@ class Internship
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=JobSkill::class, inversedBy="internships")
+     */
+    private $requiredSkills;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->requiredSkills = new ArrayCollection();
     }
 
+    /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -61,6 +87,10 @@ class Internship
         return $this;
     }
 
+    /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -73,6 +103,10 @@ class Internship
         return $this;
     }
 
+    /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @return Organization|null
+     */
     public function getOrganization(): ?Organization
     {
         return $this->organization;
@@ -86,6 +120,7 @@ class Internship
     }
 
     /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
      * @return Collection|Tag[]
      */
     public function getTags(): Collection
@@ -105,6 +140,31 @@ class Internship
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"internship:collection:get", "internship:item:get"})
+     * @return Collection|JobSkill[]
+     */
+    public function getRequiredSkills(): Collection
+    {
+        return $this->requiredSkills;
+    }
+
+    public function addRequiredSkill(JobSkill $requiredSkill): self
+    {
+        if (!$this->requiredSkills->contains($requiredSkill)) {
+            $this->requiredSkills[] = $requiredSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeRequiredSkill(JobSkill $requiredSkill): self
+    {
+        $this->requiredSkills->removeElement($requiredSkill);
 
         return $this;
     }
