@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class JobResponse
 {
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DENY = 2;
+    public const STATUS_ACCEPTED = 3;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -81,9 +85,9 @@ class JobResponse
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
-        return $this->status;
+        return new JobResponseStatus($this->status);
     }
 
     public function setStatus(int $status): self

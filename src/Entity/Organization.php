@@ -7,6 +7,7 @@ use App\Repository\OrganizationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -87,6 +88,10 @@ class Organization
         return $this->id;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -99,6 +104,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -111,6 +120,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getAddress(): ?string
     {
         return $this->address;
@@ -123,6 +136,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return float|null
+     */
     public function getRating(): ?float
     {
         return $this->rating;
@@ -135,6 +152,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getPhone(): ?string
     {
         return $this->phone;
@@ -147,6 +168,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getTelegram(): ?string
     {
         return $this->telegram;
@@ -189,6 +214,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getAgentName(): ?string
     {
         return $this->agentName;
@@ -201,6 +230,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getAgentEmail(): ?string
     {
         return $this->agentEmail;
@@ -243,6 +276,10 @@ class Organization
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getCity(): ?string
     {
         return $this->city;

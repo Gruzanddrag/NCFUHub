@@ -7,13 +7,32 @@ use App\Repository\JobRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"normalization_context"={"groups"="job:collection:get"}},
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"="job:item:get"}},
+ *          "put"
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=JobRepository::class)
  */
 class Job
 {
+    public const JOB_ATTENDANCE_OFFICE = 1;
+    public const JOB_ATTENDANCE_REMOTE = 2;
+
+
+    public const JOB_EMPLOYMENT_TYPE_FULL_TIME = 1;
+    public const JOB_EMPLOYMENT_TYPE_PART_TIME = 2;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -71,17 +90,46 @@ class Job
      */
     private $jobExperience;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=JobSkill::class)
+     * @JoinTable(name="job_reqiured_skills",
+    *      joinColumns={@JoinColumn(name="job_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@JoinColumn(name="job_skill_id", referencedColumnName="id")}
+    *  )
+     */
+    private $requiredSkills;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=JobSkill::class)
+     * @JoinTable(name="job_improved_skills",
+     *      joinColumns={@JoinColumn(name="job_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="job_skill_id", referencedColumnName="id")}
+     *  )
+     */
+    private $improvedSkills;
+
+
     public function __construct()
     {
         $this->jobResponses = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->requiredSkills = new ArrayCollection();
+        $this->improvedSkills = new ArrayCollection();
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getPositionName(): ?string
     {
         return $this->positionName;
@@ -94,6 +142,10 @@ class Job
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return int|null
+     */
     public function getMinPayment(): ?int
     {
         return $this->minPayment;
@@ -106,6 +158,10 @@ class Job
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return int|null
+     */
     public function getMaxPayment(): ?int
     {
         return $this->maxPayment;
@@ -118,6 +174,10 @@ class Job
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -130,21 +190,29 @@ class Job
         return $this;
     }
 
-    public function getJobAttendanceType(): ?int
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
+    public function getJobAttendanceType(): ?string
     {
-        return $this->jobAttendanceType;
+        return new JobAttendanceType($this->jobAttendanceType);
     }
 
-    public function setJobAttendanceType(int $jobAttendanceЕнType): self
+    public function setJobAttendanceType(int $jobAttendanceType): self
     {
-        $this->jobAttendanceType = $jobAttendanceЕнType;
+        $this->jobAttendanceType = $jobAttendanceType;
 
         return $this;
     }
 
-    public function getJobEmploymentType(): ?int
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return string|null
+     */
+    public function getJobEmploymentType(): ?string
     {
-        return $this->jobEmploymentType;
+        return new JobEmploymentType($this->jobEmploymentType);
     }
 
     public function setJobEmploymentType(int $jobEmploymentType): self
@@ -155,6 +223,7 @@ class Job
     }
 
     /**
+     * @Groups({"job:item:get"})
      * @return Collection|JobResponse[]
      */
     public function getJobResponses(): Collection
@@ -184,6 +253,10 @@ class Job
         return $this;
     }
 
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return Organization|null
+     */
     public function getOrganization(): ?Organization
     {
         return $this->organization;
@@ -197,6 +270,7 @@ class Job
     }
 
     /**
+     * @Groups({"job:collection:get", "job:item:get"})
      * @return Collection|Tag[]
      */
     public function getTags(): Collection
@@ -220,15 +294,71 @@ class Job
         return $this;
     }
 
-    public function getJobExperience(): ?string
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return Collection|JobSkill[]
+     */
+    public function getRequiredSkills(): Collection
+    {
+        return $this->requiredSkills;
+    }
+
+    public function addRequiredSkill(JobSkill $requiredSkill): self
+    {
+        if (!$this->requiredSkills->contains($requiredSkill)) {
+            $this->requiredSkills[] = $requiredSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeRequiredSkill(JobSkill $requiredSkill): self
+    {
+        $this->requiredSkills->removeElement($requiredSkill);
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return Collection|JobSkill[]
+     */
+    public function getImprovedSkills(): Collection
+    {
+        return $this->improvedSkills;
+    }
+
+    public function addImprovedSkill(JobSkill $improvedSkill): self
+    {
+        if (!$this->improvedSkills->contains($improvedSkill)) {
+            $this->improvedSkills[] = $improvedSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeImprovedSkill(JobSkill $improvedSkill): self
+    {
+        $this->improvedSkills->removeElement($improvedSkill);
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"job:collection:get", "job:item:get"})
+     * @return mixed
+     */
+    public function getJobExperience()
     {
         return $this->jobExperience;
     }
 
-    public function setJobExperience(string $jobExperience): self
+    /**
+     * @param mixed $jobExperience
+     */
+    public function setJobExperience($jobExperience): void
     {
         $this->jobExperience = $jobExperience;
-
-        return $this;
     }
+
 }
