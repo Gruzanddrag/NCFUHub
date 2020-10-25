@@ -7,3 +7,4 @@ https://github.com/fuzr0dah/ncfuhub/commits/main
 
 ## Android-фронтенд
 https://github.com/TheKicher/NCFUHub
+https://github.com/TheKicher/NCFUHub/releases/tag/0.1 (APK)
