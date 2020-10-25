@@ -121,7 +121,9 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "tag:collection:get",
+     *     "organization:read"
      * })
      * @return int|null
      */
@@ -134,7 +136,8 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -154,7 +157,8 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return int|null
      */
@@ -174,7 +178,9 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"})
+     *     "user:read",
+     *     "organization:read"
+     * })
      * @return int|null
      */
     public function getMaxPayment(): ?int
@@ -193,7 +199,8 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -213,7 +220,9 @@ class Job
      * @Groups({
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"})
+     *     "user:read",
+     *     "organization:read"
+     * })
      * @return string|null
      */
     public function getJobAttendanceType(): ?string
@@ -245,7 +254,10 @@ class Job
     }
 
     /**
-     * @Groups({"job:item:get"})
+     * @Groups({
+     *     "job:item:get",
+     *     "organization:read"
+     * })
      * @return Collection|JobResponse[]
      */
     public function getJobResponses(): Collection

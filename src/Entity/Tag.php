@@ -7,9 +7,10 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(attributes={"normalization_context"={"groups"="tag:collection:get"}})
  * @ORM\Entity(repositoryClass=TagRepository::class)
  */
 class Tag
@@ -42,11 +43,27 @@ class Tag
         $this->internships = new ArrayCollection();
     }
 
+    /**
+     * @Groups({
+     *     "tag:collection:get",
+     *     "job:item:get",
+     *     "internship:item:get"
+     * })
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({
+     *     "tag:collection:get",
+     *     "job:item:get",
+     *     "internship:item:get"
+     * })
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -60,6 +77,9 @@ class Tag
     }
 
     /**
+     * @Groups({
+     *     "tag:collection:get"
+     * })
      * @return Collection|Job[]
      */
     public function getJobs(): Collection
@@ -87,6 +107,9 @@ class Tag
     }
 
     /**
+     * @Groups({
+     *     "tag:collection:get",
+     * })
      * @return Collection|Internship[]
      */
     public function getInternships(): Collection

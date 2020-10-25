@@ -10,7 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get",
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"="organization:read"}},
+ *          "put"
+ *     })
  * @ORM\Entity(repositoryClass=OrganizationRepository::class)
  */
 class Organization
@@ -94,7 +102,8 @@ class Organization
      *     "internship:item:get",
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return int|null
      */
@@ -109,7 +118,8 @@ class Organization
      *     "internship:item:get",
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -153,7 +163,8 @@ class Organization
      *     "internship:item:get",
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -175,7 +186,8 @@ class Organization
      *     "internship:item:get",
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return float|null
      */
@@ -196,7 +208,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -217,7 +230,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -234,6 +248,9 @@ class Organization
     }
 
     /**
+     * @Groups({
+     *     "organization:read"
+     * })
      * @return Collection|Internship[]
      */
     public function getInternships(): Collection
@@ -268,7 +285,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -289,7 +307,8 @@ class Organization
      *     "internship:collection:get",
      *     "internship:item:get",
      *     "job:collection:get",
-     *     "job:item:get"
+     *     "job:item:get",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -306,6 +325,9 @@ class Organization
     }
 
     /**
+     * @Groups({
+     *     "organization:read"
+     * })
      * @return Collection|Job[]
      */
     public function getJobs(): Collection
@@ -341,7 +363,8 @@ class Organization
      *     "internship:item:get",
      *     "job:collection:get",
      *     "job:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */

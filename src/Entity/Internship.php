@@ -57,7 +57,7 @@ class Internship
     private $requiredSkills;
 
     /**
-     * @ORM\OneToMany(targetEntity=InternshipResponse::class, mappedBy="Internship")
+     * @ORM\OneToMany(targetEntity=InternshipResponse::class, mappedBy="internship")
      */
     private $internshipResponses;
 
@@ -72,7 +72,9 @@ class Internship
      * @Groups({
      *     "internship:collection:get",
      *     "internship:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "tag:collection:get",
+     *     "organization:read"
      * })
      * @return int|null
      */
@@ -85,7 +87,8 @@ class Internship
      * @Groups({
      *     "internship:collection:get",
      *     "internship:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -105,7 +108,8 @@ class Internship
      * @Groups({
      *     "internship:collection:get",
      *     "internship:item:get",
-     *     "user:read"
+     *     "user:read",
+     *     "organization:read"
      * })
      * @return string|null
      */
@@ -199,6 +203,9 @@ class Internship
     }
 
     /**
+     * @Groups({
+     *     "organization:read"
+     * })
      * @return Collection|InternshipResponse[]
      */
     public function getInternshipResponses(): Collection
